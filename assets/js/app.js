@@ -253,15 +253,5 @@ function setupSmoothAnchors() {
   // puedes volver a disparar:
   window.BRP_initMapLights = init;
 })();
-const burger = document.querySelector(".burger");
-const mobileNav = document.querySelector(".mobileNav");
 
-if (burger && mobileNav){
-  burger.addEventListener("click", () => {
-    const open = burger.getAttribute("aria-expanded") === "true";
-    burger.setAttribute("aria-expanded", !open);
-    mobileNav.hidden = open;
-    document.body.style.overflow = open ? "" : "hidden";
-  });
-}
 
