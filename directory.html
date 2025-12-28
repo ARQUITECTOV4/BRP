@@ -1,0 +1,504 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#06070b" />
+  <title>Directory — Black Room Partners</title>
+
+  <!-- CSS global del sitio (header/footer vienen de aquí) -->
+  <link rel="stylesheet" href="assets/css/styles.css" />
+
+  <!-- CSS del Directory: NO toca .header ni .footer (para no pisar el global) -->
+  <style>
+    :root{
+      --bg:#06070b;
+      --panel:rgba(255,255,255,.035);
+      --panel2:rgba(255,255,255,.02);
+      --line:rgba(255,255,255,.07);
+      --text:rgba(235,233,227,.92);
+      --muted:rgba(235,233,227,.70);
+      --muted2:rgba(235,233,227,.55);
+      --gold:#d7b35a;
+      --shadow:0 18px 50px rgba(0,0,0,.45);
+      --r:16px;
+
+      --container:1160px;
+    }
+
+    html,body{height:100%;}
+    body.page-directory{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Noto Sans";
+      background: radial-gradient(1100px 700px at 70% 20%, rgba(215,179,90,.10), transparent 55%),
+                  radial-gradient(900px 600px at 20% 60%, rgba(120,170,255,.10), transparent 60%),
+                  var(--bg);
+      color:var(--text);
+      overflow-x:hidden;
+
+      /* Respeta header/footer fijos del CSS global (si los tienes) */
+      padding-top: var(--headerH, 72px);
+      padding-bottom: var(--footerH, 44px);
+    }
+
+    .page-directory .container{
+      width:min(var(--container), calc(100% - 48px));
+      margin:0 auto;
+    }
+
+    /* ================= PAGE HERO ================= */
+    .page-directory .pageHead{ padding:42px 0 18px; }
+    .page-directory .kicker{
+      display:inline-flex; align-items:center; gap:10px;
+      padding:8px 12px;
+      border-radius:999px;
+      background:rgba(255,255,255,.03);
+      border:1px solid rgba(255,255,255,.06);
+      text-transform:uppercase;
+      font-size:11px;
+      letter-spacing:.22em;
+      color:rgba(235,233,227,.78);
+    }
+    .page-directory .kicker i{
+      width:7px; height:7px; border-radius:999px;
+      background:rgba(215,179,90,.95);
+      box-shadow:0 0 18px rgba(215,179,90,.35);
+      display:inline-block;
+    }
+    .page-directory .pageTitle{
+      margin:18px 0 10px;
+      font-family: ui-serif, Georgia, "Times New Roman", serif;
+      letter-spacing:.02em;
+      font-size: clamp(32px, 3.6vw, 54px);
+      line-height:1.03;
+    }
+    .page-directory .pageSub{
+      margin:0;
+      max-width: 76ch;
+      color:rgba(235,233,227,.68);
+      font-size:14px;
+      line-height:1.7;
+    }
+
+    /* ================= DIRECTORY CONTROLS ================= */
+    .page-directory .dirControls{
+      margin-top:18px;
+      display:flex;
+      gap:12px;
+      flex-wrap:wrap;
+      align-items:center;
+      justify-content:space-between;
+      border:1px solid rgba(255,255,255,.06);
+      background:rgba(255,255,255,.02);
+      border-radius:14px;
+      padding:12px;
+    }
+    .page-directory .search{
+      display:flex; align-items:center; gap:10px;
+      flex: 1 1 360px;
+      padding:10px 12px;
+      border-radius:12px;
+      border:1px solid rgba(255,255,255,.08);
+      background:rgba(0,0,0,.18);
+    }
+    .page-directory .search input{
+      width:100%;
+      background:transparent;
+      border:0;
+      outline:none;
+      color:rgba(235,233,227,.90);
+      letter-spacing:.06em;
+      font-size:13px;
+    }
+    .page-directory .pillRow{ display:flex; gap:10px; flex-wrap:wrap; justify-content:flex-end; }
+    .page-directory .pill{
+      cursor:pointer;
+      user-select:none;
+      padding:10px 12px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.10);
+      background:rgba(255,255,255,.02);
+      color:rgba(235,233,227,.78);
+      text-transform:uppercase;
+      font-size:11px;
+      letter-spacing:.20em;
+      transition:.18s ease;
+    }
+    .page-directory .pill:hover{ border-color:rgba(215,179,90,.28); }
+    .page-directory .pill.is-on{
+      border-color:rgba(215,179,90,.45);
+      background:rgba(215,179,90,.12);
+      color:rgba(245,239,220,.95);
+    }
+
+    /* ================= SECTIONS ================= */
+    .page-directory .section{ padding:26px 0; }
+    .page-directory .sectionHead{
+      display:flex;
+      align-items:flex-end;
+      justify-content:space-between;
+      gap:16px;
+      margin-bottom:14px;
+    }
+    .page-directory .sectionHead h3{
+      margin:0;
+      text-transform:uppercase;
+      letter-spacing:.24em;
+      font-size:12px;
+      color:rgba(235,233,227,.78);
+    }
+    .page-directory .sectionHead p{
+      margin:0;
+      font-size:12px;
+      color:rgba(235,233,227,.55);
+      letter-spacing:.06em;
+    }
+
+    /* ================= CARDS ================= */
+    .page-directory .grid{
+      display:grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap:14px;
+    }
+    .page-directory .card{
+      grid-column: span 4;
+      border-radius: var(--r);
+      background: linear-gradient(180deg, rgba(255,255,255,.035), rgba(255,255,255,.02));
+      border:1px solid rgba(255,255,255,.07);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+      position:relative;
+      transition:.18s ease;
+    }
+    .page-directory .card:hover{
+      transform: translateY(-2px);
+      border-color: rgba(215,179,90,.18);
+    }
+    @media (max-width: 980px){ .page-directory .card{ grid-column: span 6; } }
+    @media (max-width: 640px){ .page-directory .card{ grid-column: span 12; } }
+
+    .page-directory .cardTop{
+      display:flex; align-items:center; justify-content:space-between;
+      padding:14px 16px 10px;
+    }
+    .page-directory .badge{
+      display:inline-flex; align-items:center; gap:8px;
+      padding:8px 10px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.10);
+      background:rgba(0,0,0,.14);
+      font-size:10px;
+      letter-spacing:.22em;
+      text-transform:uppercase;
+      color:rgba(235,233,227,.72);
+    }
+    .page-directory .badge i{
+      width:6px; height:6px; border-radius:999px;
+      background: rgba(215,179,90,.95);
+      box-shadow:0 0 14px rgba(215,179,90,.32);
+      display:inline-block;
+    }
+    .page-directory .tag{
+      font-size:10px;
+      letter-spacing:.22em;
+      text-transform:uppercase;
+      color:rgba(235,233,227,.50);
+    }
+
+    .page-directory .profile{
+      display:flex; gap:14px;
+      padding:0 16px 16px;
+      align-items:center;
+    }
+    .page-directory .avatar{
+      width:56px; height:56px;
+      border-radius:14px;
+      overflow:hidden;
+      border:1px solid rgba(255,255,255,.10);
+      background:rgba(255,255,255,.02);
+      flex: 0 0 auto;
+    }
+    .page-directory .avatar img{
+      width:100%; height:100%;
+      object-fit:cover;
+      /* OJO: aquí NO pongo blanco y negro (tú dijiste color) */
+      opacity:.95;
+    }
+    .page-directory .who{ min-width:0; }
+    .page-directory .name{
+      font-family: ui-serif, Georgia, "Times New Roman", serif;
+      text-transform:uppercase;
+      letter-spacing:.12em;
+      font-size:14px;
+      margin:0 0 4px;
+    }
+    .page-directory .role{
+      margin:0 0 8px;
+      text-transform:uppercase;
+      letter-spacing:.22em;
+      font-size:11px;
+      color:rgba(215,179,90,.90);
+    }
+    .page-directory .line{
+      margin:0;
+      font-size:12.5px;
+      color:rgba(235,233,227,.70);
+      line-height:1.6;
+    }
+
+    .page-directory .cardFoot{
+      padding:12px 16px 14px;
+      border-top:1px solid rgba(255,255,255,.06);
+      display:flex; align-items:center; justify-content:space-between;
+      color:rgba(235,233,227,.55);
+      font-size:11px;
+      letter-spacing:.08em;
+    }
+
+    .page-directory .btn{
+      display:inline-flex; align-items:center; justify-content:center;
+      height:40px; padding:0 14px;
+      border-radius:12px;
+      border:1px solid rgba(255,255,255,.10);
+      background:rgba(255,255,255,.02);
+      color:rgba(235,233,227,.88);
+      text-decoration:none;
+      text-transform:uppercase;
+      font-size:11px;
+      letter-spacing:.22em;
+      transition:.18s ease;
+      white-space:nowrap;
+    }
+    .page-directory .btn:hover{ transform:translateY(-1px); border-color:rgba(215,179,90,.32); }
+    .page-directory .btn--gold{
+      border-color: rgba(215,179,90,.45);
+      background: linear-gradient(180deg, rgba(215,179,90,.22), rgba(215,179,90,.10));
+      color:rgba(245,239,220,.95);
+    }
+  </style>
+</head>
+
+<body class="page-directory">
+  <!-- HEADER/FOOTER: se cargan desde tu sistema global -->
+  <div id="site-header"></div>
+
+  <main>
+    <section class="pageHead">
+      <div class="container">
+        <div class="kicker"><i></i><span>DIRECTORY ACCESS</span></div>
+        <h1 class="pageTitle">Directory.</h1>
+        <p class="pageSub">
+          Un índice institucional. Roles visibles, exposición limitada. La firma opera por mandato,
+          no por narrativa. <span style="color:rgba(215,179,90,.9)">Selective by design.</span>
+        </p>
+
+        <div class="dirControls" role="region" aria-label="Directory controls">
+          <div class="search">
+            <span style="opacity:.7; letter-spacing:.18em; text-transform:uppercase; font-size:11px;">Search</span>
+            <input id="dirSearch" type="search" placeholder="Nombre / rol / célula" autocomplete="off" />
+          </div>
+
+          <div class="pillRow" aria-label="Filters">
+            <button class="pill is-on" data-filter="all" type="button">All</button>
+            <button class="pill" data-filter="principals" type="button">Principals</button>
+            <button class="pill" data-filter="intelligence" type="button">Intelligence</button>
+            <button class="pill" data-filter="signals" type="button">Signals</button>
+            <button class="pill" data-filter="mandate" type="button">Mandate</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="principals">
+      <div class="container">
+        <div class="sectionHead">
+          <div>
+            <h3>Principals Council</h3>
+            <p>5 nombres máximo. Solo primer nombre. Autoridad silenciosa.</p>
+          </div>
+          <p>Confidential by design.</p>
+        </div>
+
+        <div class="grid" id="gridPrincipals">
+          <article class="card dirCard" data-tags="principals mandate">
+            <div class="cardTop">
+              <span class="badge"><i></i> Limited principals</span>
+              <span class="tag">Council</span>
+            </div>
+            <div class="profile">
+              <div class="avatar">
+                <img src="assets/img/team/andres.png" alt="Andrés" />
+              </div>
+              <div class="who">
+                <p class="name">ANDRÉS</p>
+                <p class="role">MANAGING PARTNER</p>
+                <p class="line">Dirección del mandato. Alineación con el cliente.</p>
+              </div>
+            </div>
+            <div class="cardFoot">
+              <span>Mandate</span><span>Selective engagements</span>
+            </div>
+          </article>
+
+          <article class="card dirCard" data-tags="principals intelligence">
+            <div class="cardTop">
+              <span class="badge"><i></i> Intelligence lead</span>
+              <span class="tag">Council</span>
+            </div>
+            <div class="profile">
+              <div class="avatar">
+                <img src="assets/img/team/valeria.png" alt="Valeria" />
+              </div>
+              <div class="who">
+                <p class="name">VALERIA</p>
+                <p class="role">HEAD OF INTELLIGENCE</p>
+                <p class="line">Señales, escenarios, ingeniería breve.</p>
+              </div>
+            </div>
+            <div class="cardFoot">
+              <span>Intel</span><span>Framework first</span>
+            </div>
+          </article>
+
+          <article class="card dirCard" data-tags="principals mandate">
+            <div class="cardTop">
+              <span class="badge"><i></i> Director of mandate</span>
+              <span class="tag">Council</span>
+            </div>
+            <div class="profile">
+              <div class="avatar">
+                <img src="assets/img/team/diego.png" alt="Diego" />
+              </div>
+              <div class="who">
+                <p class="name">DIEGO</p>
+                <p class="role">DIRECTOR OF MANDATE</p>
+                <p class="line">Gobernanza, cadencia, decisiones sin fricción.</p>
+              </div>
+            </div>
+            <div class="cardFoot">
+              <span>Mandate</span><span>Long-term alignment</span>
+            </div>
+          </article>
+
+          <article class="card dirCard" data-tags="principals signals">
+            <div class="cardTop">
+              <span class="badge"><i></i> Volatility regime</span>
+              <span class="tag">Council</span>
+            </div>
+            <div class="profile">
+              <div class="avatar">
+                <img src="assets/img/team/sofia.png" alt="Sofía" />
+              </div>
+              <div class="who">
+                <p class="name">SOFÍA</p>
+                <p class="role">RISK & VOLATILITY</p>
+                <p class="line">Cambios de régimen antes de los titulares.</p>
+              </div>
+            </div>
+            <div class="cardFoot">
+              <span>Risk</span><span>Quiet signal</span>
+            </div>
+          </article>
+
+          <article class="card dirCard" data-tags="principals signals intelligence">
+            <div class="cardTop">
+              <span class="badge"><i></i> Signals architecture</span>
+              <span class="tag">Council</span>
+            </div>
+            <div class="profile">
+              <div class="avatar">
+                <img src="assets/img/team/mateo.png" alt="Mateo" />
+              </div>
+              <div class="who">
+                <p class="name">MATEO</p>
+                <p class="role">SIGNALS & SYSTEMS</p>
+                <p class="line">Mapas, vectores, cobertura discreta.</p>
+              </div>
+            </div>
+            <div class="cardFoot">
+              <span>Signals</span><span>Confidential layer</span>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="request">
+      <div class="container">
+        <div class="sectionHead">
+          <div>
+            <h3>Request</h3>
+            <p>Engagements are selective. Not all requests are accepted.</p>
+          </div>
+        </div>
+
+        <div style="border:1px solid rgba(255,255,255,.07); background:rgba(255,255,255,.02); border-radius:16px; padding:18px;">
+          <p style="margin:0 0 12px; color:rgba(235,233,227,.72); line-height:1.7; font-size:13px;">
+            Solicitudes revisadas por mandato. Si aplica, se responde con una ventana de briefing.
+          </p>
+          <a class="btn btn--gold" href="mailto:request@blackroompartners.com">Request confidential briefing</a>
+        </div>
+      </div>
+    </section>
+
+    <div style="height:22px;"></div>
+  </main>
+
+  <div id="site-footer"></div>
+
+  <!-- Loader MINIMO (si ya lo haces en tu JS global, borra este bloque y listo) -->
+  <script>
+    (function(){
+      const h = document.getElementById("site-header");
+      const f = document.getElementById("site-footer");
+
+      // Si ya tienes header/footer hardcodeados en esta página, no hace nada.
+      // Si existen partials, los inyecta.
+      async function inject(el, url){
+        if (!el || el.children.length) return;
+        try{
+          const r = await fetch(url, { cache: "no-store" });
+          if(!r.ok) return;
+          el.innerHTML = await r.text();
+        }catch(e){}
+      }
+
+      inject(h, "partials/header.html");
+      inject(f, "partials/footer.html");
+    })();
+  </script>
+
+  <!-- Filtros / search del directory (lo mantengo) -->
+  <script>
+    (function(){
+      const pills = Array.from(document.querySelectorAll("[data-filter]"));
+      const cards = Array.from(document.querySelectorAll(".dirCard"));
+      const input = document.getElementById("dirSearch");
+
+      function apply(filter, q){
+        const query = (q || "").trim().toLowerCase();
+        cards.forEach(card=>{
+          const tags = (card.getAttribute("data-tags") || "").toLowerCase();
+          const text = card.innerText.toLowerCase();
+          const okFilter = (filter === "all") || tags.includes(filter);
+          const okQuery = !query || text.includes(query) || tags.includes(query);
+          card.style.display = (okFilter && okQuery) ? "" : "none";
+        });
+      }
+
+      let active = "all";
+      pills.forEach(p=>{
+        p.addEventListener("click", ()=>{
+          pills.forEach(x=>x.classList.remove("is-on"));
+          p.classList.add("is-on");
+          active = p.getAttribute("data-filter");
+          apply(active, input.value);
+        });
+      });
+
+      input?.addEventListener("input", ()=> apply(active, input.value));
+      apply(active, "");
+    })();
+  </script>
+</body>
+</html>
